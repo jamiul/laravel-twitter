@@ -2,13 +2,14 @@
 
 namespace App;
 
+use App\Followable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
-    use Notifiable;
+    use Notifiable, Followable;
 
     /**
      * The attributes that are mass assignable.
@@ -53,26 +54,11 @@ class User extends Authenticatable
 
     public function tweets()
     {
-        return $this->hasMany(Tweet::class);
+        return $this->hasMany(Tweet::class)->latest();
     }
 
-    public function follow(User $user)
+    public function path()
     {
-        return $this->follows()->save($user);
-    }
-
-    public function follows()
-    {
-        return $this->belongsToMany(
-            User::class,
-            'follows',
-            'user_id',
-            'following_user_id'
-        );
-    }
-
-    public function getRouteKeyName()
-    {
-        return 'name';
+        return route('profile', $this->name);
     }
 }
