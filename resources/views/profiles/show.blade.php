@@ -9,7 +9,6 @@
             alt=""
             class="mb-2"
             >
-
             <img
                 src="{{ $user->avatar }}"
                 alt=""

@@ -26,14 +26,15 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/tweets', 'TweetController@index')->name('home');
     Route::post('/tweets', 'TweetController@store');
 
-    Route::post('/profiles/{user:name}/follow', 'FollowsController@store');
+    Route::post('/profiles/{user:username}/follow', 'FollowsController@store');
     Route::get(
-        '/profiles/{user:name}/edit',
+        '/profiles/{user:username}/edit',
         'ProfileController@edit'
     )->middleware('can:edit,user');
+    Route::patch('/profiles/{user:username}', 'ProfileController@update');
 });
 
-Route::get('/profiles/{user:name}', 'ProfileController@show')->name('profile');
+Route::get('/profiles/{user:username}', 'ProfileController@show')->name('profile');
 
 Auth::routes();
 
